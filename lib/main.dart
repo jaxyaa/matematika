@@ -1,41 +1,80 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // Application name
-      title: 'Flutter Hello World',
-      // Application theme data, you can set the colors for the application as
-      // you want
-      theme: ThemeData(
-        // useMaterial3: false,
-        primarySwatch: Colors.blue,
-      ),
-      // A widget which will be started on application startup
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false,
+      home: JarakPage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  final String title;
-  const MyHomePage({super.key, required this.title});  
+class JarakPage extends StatefulWidget {
+  @override
+  State<JarakPage> createState() => _JarakPageState();
+}
+
+class _JarakPageState extends State<JarakPage> {
+  final waktu = TextEditingController();
+  final kecepatan = TextEditingController();
+
+  String hasil = "";
+
+  void hitungJarak() {
+    double t = double.parse(waktu.text);
+    double v = double.parse(kecepatan.text);
+
+    double s = t * v;
+
+    setState(() {
+      hasil = "Jarak = $s";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // The title text which will be shown on the action bar
-        title: Text(title),
+        title: Text("Menghitung Jarak"),
+        backgroundColor: Color(0xffa2f8f8),
       ),
-      body: Center(
-        child: Text(
-          'Hello, World!',
+      body: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          children: [
+            TextField(
+              controller: waktu,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: "Masukkan waktu (t)",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 15),
+            TextField(
+              controller: kecepatan,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: "Masukkan kecepatan (v)",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: hitungJarak,
+              child: Text("Hitung Jarak"),
+            ),
+            SizedBox(height: 20),
+            Text(
+              hasil,
+              style: TextStyle(fontSize: 20),
+            ),
+          ],
         ),
       ),
     );
